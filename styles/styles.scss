@@ -1,1 +1,11 @@
 @import 'modern-css-reset/src/reset.css';
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#game-canvas {
+  background: black;
+  flex: 1;
+}

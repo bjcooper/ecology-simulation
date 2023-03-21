@@ -3,7 +3,10 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "moduleResolution": "Node",
     "strict": true,
     "resolveJsonModule": true,
@@ -15,5 +18,11 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": [
+    "vite-env.d.ts",
+    "src",
+    "main.ts",
+    "../other/super-simple-game-engine/src",
+    "../other/super-simple-game-engine/types.d.ts",
+  ]
 }

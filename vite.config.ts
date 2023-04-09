@@ -11,8 +11,6 @@ export default defineConfig({
       dirs: [
         './src/constants',
         './src/entities',
-        '../other/super-simple-js-game-engine/src',
-        '../other/super-simple-js-game-engine/src/composition',
       ]
     })
   ],

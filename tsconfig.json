@@ -16,13 +16,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
+  "extends": "../other/super-simple-js-game-engine/tsconfig.json",
   "include": [
     "auto-imports.d.ts",
     "vite-env.d.ts",
     "src",
-    "../other/super-simple-js-game-engine/src",
+    "../other/super-simple-js-game-engine/index.ts",
     "../other/super-simple-js-game-engine/types.ts",
   ]
 }

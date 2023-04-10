@@ -1,7 +1,4 @@
-import { GameEntityBase } from "../../../other/super-simple-game-engine/src/GameEntityBase"
-import { Color, Font } from "../constants"
-
-export class Stats extends GameEntityBase implements GameEntity {
+export class Stats extends GameEntityBase {
   maxMeasurements = 10
   pastDeltasMs: number[] = []
   averageFps = 0
@@ -27,15 +24,15 @@ export class Stats extends GameEntityBase implements GameEntity {
     ctx.textAlign = 'right'
     ctx.fillText(
       `${this.averageFps.toString()} FPS`,
-      this.game.worldSize.x - 7,
-      this.game.worldSize.y - 12
+      this.game.worldSize.width - 7,
+      this.game.worldSize.height - 12
     )
 
     // Print entity count.
     ctx.fillText(
       `${this.game.entities.length} entities`,
-      this.game.worldSize.x - 7,
-      this.game.worldSize.y - 30
+      this.game.worldSize.width - 7,
+      this.game.worldSize.height - 30
     )
   }
 }

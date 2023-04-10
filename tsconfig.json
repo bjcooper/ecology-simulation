@@ -23,7 +23,7 @@
     "auto-imports.d.ts",
     "vite-env.d.ts",
     "src",
-    "../other/super-simple-js-game-engine/index.ts",
-    "../other/super-simple-js-game-engine/types.ts",
+    "../other/super-simple-js-game-engine/src/index.d.ts",
+    "../other/super-simple-js-game-engine/src/types.d.ts",
   ]
 }

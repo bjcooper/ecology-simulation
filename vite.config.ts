@@ -9,7 +9,7 @@ export default defineConfig({
         /\.ts$/
       ],
       dirs: [
-        './src/constants',
+        './src',
         './src/entities',
       ]
     })

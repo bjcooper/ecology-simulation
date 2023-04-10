@@ -1,26 +1,17 @@
-import { hasAge } from "../../../other/super-simple-game-engine/src/composition/hasAge"
-import { hasPosition } from "../../../other/super-simple-game-engine/src/composition/hasPosition"
-import { hasSize } from "../../../other/super-simple-game-engine/src/composition/hasSize"
-import { hasStates } from "../../../other/super-simple-game-engine/src/composition/hasStates"
-import { GameEngine } from "../../../other/super-simple-game-engine/src/GameEngine"
-import { GameEntityBase } from "../../../other/super-simple-game-engine/src/GameEntityBase"
-import { Color } from "../constants"
-import { Fruit } from "./Fruit"
-
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
 
-export class Plant extends GameEntityBase implements GameEntity {
+export class Plant extends GameEntityBase {
   position
   size
-  age = hasAge()
+  age = AgeTrait.use()
+  state = StateTrait.use<typeof states[number]>(this)
   fruit?: Fruit
-  state = hasStates<typeof states[number]>(this)
 
   constructor(simulator: GameEngine, location: Vector2D) {
     super(simulator)
     this.state.set('Seed')
-    this.size = hasSize({ x: 0, y: 0 })
-    this.position = hasPosition(location, this.size)
+    this.size = SizeTrait.use({ x: 0, y: 0 })
+    this.position = PositionTrait.use(location, this.size)
   }
 
   update(deltaMs: number) {
@@ -33,33 +24,33 @@ export class Plant extends GameEntityBase implements GameEntity {
     this.position.fillRect(ctx)
 
     if (this.fruit) {
-      this.fruit.draw(ctx)
+      this.fruit.draw()
     }
   }
 
   updateStateSeed() {
-    this.size.x = 0
-    this.size.y = 0
+    this.size.width = 0
+    this.size.height = 0
 
-    if (this.state.age.seconds() >= 2) {
+    if (this.state.age.seconds >= 2) {
       this.state.set('Sprout')
     }
   }
 
   updateStateSprout() {
-    this.size.x = 3
-    this.size.y = 3
+    this.size.width = 3
+    this.size.height = 3
 
-    if (this.state.age.seconds() >= 2) {
+    if (this.state.age.seconds >= 2) {
       this.state.set('Adolescent')
     }
   }
 
   updateStateAdolescent() {
-    this.size.x = 5
-    this.size.y = 5
+    this.size.width = 5
+    this.size.height = 5
 
-    if (this.state.age.seconds() >= 2) {
+    if (this.state.age.seconds >= 2) {
       this.state.set('Mature')
     }
   }
@@ -69,10 +60,10 @@ export class Plant extends GameEntityBase implements GameEntity {
   }
 
   updateStateMature() {
-    this.size.x = 9
-    this.size.y = 9
+    this.size.width = 9
+    this.size.height = 9
 
-    if (this.state.age.seconds() >= 2) {
+    if (this.state.age.seconds >= 2) {
       this.state.set('Dead')
     }
   }

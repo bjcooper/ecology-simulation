@@ -17,7 +17,7 @@ if (canvas) {
   //   plant.state.set('Mature')
   //   game.registerEntity(plant)
   // }
-  game.registerEntity(new Stats(game))
+  // game.registerEntity(new Stats(game))
 
   // Play!
   game.play()

@@ -2,15 +2,13 @@ import type { BoundingBoxInfo, Vector2D } from '..'
 import type { SizeTrait } from './SizeTrait'
 
 export class PositionTrait {
-  private _position: Vector2D
-  private _size: SizeTrait
+  _position: Vector2D
 
-  constructor(initialPosition: Vector2D, size: SizeTrait) {
+  constructor(initialPosition: Vector2D, public _size: SizeTrait) {
     this._position = {
       x: Math.round(initialPosition.x),
       y: Math.round(initialPosition.y)
     }
-    this._size = size
   }
 
   static use(initialPosition: Vector2D, size: SizeTrait) {

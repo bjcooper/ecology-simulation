@@ -1,9 +1,5 @@
 export class AgeTrait {
-  _ms: number
-
-  constructor(initialAgeMs: number) {
-    this._ms = initialAgeMs
-  }
+  constructor(public _ms: number) {}
 
   static use(initialAgeMs = 0) {
     return new AgeTrait(initialAgeMs)

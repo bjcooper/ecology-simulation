@@ -2,15 +2,12 @@ import type { DrawCallback } from '..'
 import { AgeTrait } from './AgeTrait'
 
 export class StateTrait<S extends string> {
-  parent: object
   age = AgeTrait.use()
   deltsMs = 0
   previousState: null | S = null
   currentState: null | S = null
 
-  constructor(parent: object) {
-    this.parent = parent
-  }
+  constructor(public parent: object) {}
 
   static use<S extends string>(parent: object) {
     return new StateTrait<S>(parent)

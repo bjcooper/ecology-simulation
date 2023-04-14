@@ -1,13 +1,12 @@
 import type { Vector2D } from '..'
 
 export class SizeTrait {
-  size: Vector2D
+  size: Vector2D = {
+    x: 0,
+    y: 0
+  }
 
   constructor(initialSize: Vector2D) {
-    this.size = {
-      x: 0,
-      y: 0
-    }
     this.width = initialSize.x
     this.height = initialSize.y
   }

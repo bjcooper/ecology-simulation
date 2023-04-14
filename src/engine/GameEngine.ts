@@ -1,18 +1,16 @@
-import type { GameEntity } from '.'
+import type { IGameEntity } from '.'
 import { PositionTrait } from './composition/PositionTrait'
 import { SizeTrait } from './composition/SizeTrait'
 
 export class GameEngine {
   protected isPaused = true
   protected lastRenderMs = 0
-  protected canvas: HTMLCanvasElement
   protected ctx: CanvasRenderingContext2D
-  entities: GameEntity[] = []
+  entities: IGameEntity[] = []
   worldSize
   world
 
-  constructor(canvas: HTMLCanvasElement) {
-    this.canvas = canvas
+  constructor(protected canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     this.worldSize = SizeTrait.use({
       x: this.canvas.width,
@@ -70,7 +68,7 @@ export class GameEngine {
   /**
    * Regiser a new entity.
    */
-  public registerEntity(entity: GameEntity) {
+  public registerEntity(entity: IGameEntity) {
     if (this.entities.length >= 2000) {
       return
     }
@@ -80,7 +78,7 @@ export class GameEngine {
   /**
    * Unregister an existing entity.
    */
-  public unregisterEntity(entity: GameEntity) {
+  public unregisterEntity(entity: IGameEntity) {
     const index = this.entities.indexOf(entity)
     if (index >= 0) {
       this.entities.splice(index, 1)

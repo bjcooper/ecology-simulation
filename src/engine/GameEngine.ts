@@ -4,18 +4,35 @@ import { SizeTrait } from './composition/SizeTrait'
 
 export class GameEngine {
   protected isPaused = true
-  protected lastRenderMs = 0
+  protected lastUpdateMs = 0
+  protected lastDrawMs = 0
   protected ctx: CanvasRenderingContext2D
+  maxEntities = 2000
+  drawRateMs = Math.ceil(1000 / 30)
   entities: IGameEntity[] = []
   screenSize
 
-  constructor(protected canvas: HTMLCanvasElement) {
+  constructor(
+    protected canvas: HTMLCanvasElement,
+    options?: {
+      maxEntities: number
+      drawRateMs: number
+    }
+  ) {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     this.screenSize = new SizeTrait(
       this.canvas.width,
       this.canvas.height,
       new PositionTrait(this.canvas.width / 2, this.canvas.height / 2)
     )
+
+    if (options && options.maxEntities) {
+      this.maxEntities = options.maxEntities
+    }
+    if (options && options.drawRateMs) {
+      this.drawRateMs = options.drawRateMs
+    }
+
     this.step(0)
   }
 
@@ -37,24 +54,28 @@ export class GameEngine {
    * The program loop.
    */
   protected step(timeMs: DOMHighResTimeStamp) {
-    const deltaMs = timeMs - this.lastRenderMs
     if (!this.isPaused) {
       // Update loop.
+      const updateDeltaMs = timeMs - this.lastUpdateMs
       for (const entity of this.entities) {
         if (entity.update) {
-          entity.update(deltaMs)
+          entity.update(updateDeltaMs)
         }
       }
+      this.lastUpdateMs = timeMs
 
       // Draw loop.
-      this.ctx.clearRect(0, 0, this.screenSize.width, this.screenSize.height)
-      for (const entity of this.entities) {
-        if (entity.draw) {
-          entity.draw(this.ctx)
+      const drawDeltaMs = timeMs - this.lastDrawMs
+      if (drawDeltaMs >= this.drawRateMs) {
+        this.ctx.clearRect(0, 0, this.screenSize.width, this.screenSize.height)
+        for (const entity of this.entities) {
+          if (entity.draw) {
+            entity.draw(this.ctx)
+          }
         }
+        this.lastDrawMs = timeMs
       }
     }
-    this.lastRenderMs = timeMs
     requestAnimationFrame(time => this.step(time))
   }
 
@@ -62,10 +83,13 @@ export class GameEngine {
    * Regiser a new entity.
    */
   public registerEntity(entity: IGameEntity) {
-    if (this.entities.length >= 2000) {
+    if (this.entities.length >= this.maxEntities) {
       return
     }
     this.entities.push(entity)
+    this.entities.sort((a, b) => {
+      return a.layer - b.layer
+    })
   }
 
   /**

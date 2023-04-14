@@ -9,7 +9,7 @@ export class Fruit {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = Color.Red
+    ctx.fillStyle = Color.Purple
     this.size.fillRect(ctx)
   }
 }

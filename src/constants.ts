@@ -31,12 +31,29 @@ export const Font = {
   UI: 'Mulish'
 }
 
+export const RenderLayers = {
+  Default: 0,
+  Ground: -10,
+  Plants: 10,
+  Herbivores: 20,
+  UI: 1000
+}
+
 export const PlantSettings = {
   StartingCount: 20,
   MinProximity: 30,
+  AgeRandomizationMs: 2000,
+  SeedDurationMs: 5000,
+  SproutDurationMs: 5000,
+  AsolescentDurationMs: 10000,
+  MatureDurationMs: 5000
+}
+
+export const HerbivoreSettings = {
+  StartingCount: 10,
   AgeRandomizationMs: 1000,
-  SeedDurationMs: 2000,
-  SproutDurationMs: 2000,
-  AsolescentDurationMs: 2000,
-  MatureDurationMs: 2000
+  CalfDurationMs: 3000,
+  AdolescentDurationMs: 3000,
+  AdultDurationMs: 10000,
+  OldDurationMs: 3000
 }

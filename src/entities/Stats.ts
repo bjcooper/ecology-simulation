@@ -1,6 +1,7 @@
 import { GameEntity } from '../engine'
 
 export class Stats extends GameEntity {
+  layer = RenderLayers.UI
   maxMeasurements = 10
   pastDeltasMs: number[] = []
   averageFps = 0

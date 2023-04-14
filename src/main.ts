@@ -1,6 +1,7 @@
 import '../styles/styles.scss'
 import { GameEngine } from './engine'
 import { Ground } from './entities/Ground'
+import { Herbivore } from './entities/Herbivore'
 import { Plant } from './entities/Plant'
 import { Stats } from './entities/Stats'
 
@@ -14,6 +15,7 @@ if (canvas) {
   // Initialize entities.
   game.registerEntity(new Ground(game))
   game.registerEntity(new Stats(game))
+
   for (let i = 0; i < PlantSettings.StartingCount; i++) {
     const plant = new Plant(
       game,
@@ -22,6 +24,15 @@ if (canvas) {
     )
     plant.state.set('Mature')
     game.registerEntity(plant)
+  }
+
+  for (let i = 0; i < HerbivoreSettings.StartingCount; i++) {
+    const herbivore = new Herbivore(
+      game,
+      game.screenSize.width * Math.random(),
+      game.screenSize.height * Math.random()
+    )
+    game.registerEntity(herbivore)
   }
 
   // Play!

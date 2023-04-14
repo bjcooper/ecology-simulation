@@ -5,16 +5,19 @@ import { Fruit } from './Fruit'
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
 
 export class Plant extends GameEntity {
+  layer = RenderLayers.Plants
   position
   size
   proximitySensor
-  state = new StateTrait<(typeof states)[number]>(this)
+  state = new StateTrait<(typeof states)[number]>(
+    this,
+    PlantSettings.AgeRandomizationMs
+  )
   fruit?: Fruit
 
   constructor(game: GameEngine, x: number, y: number) {
     super(game)
     this.state.set('Seed')
-    this.state.age._ms = Math.random() * PlantSettings.AgeRandomizationMs
     this.position = new PositionTrait(x, y)
     this.size = new SizeTrait(0, 0, this.position)
     this.proximitySensor = new SizeTrait(
@@ -38,8 +41,8 @@ export class Plant extends GameEntity {
   }
 
   updateStateSeed() {
-    this.size.width = 0
-    this.size.height = 0
+    this.size.width = 3
+    this.size.height = 3
 
     if (this.state.age.ms >= PlantSettings.SeedDurationMs) {
       this.state.set('Sprout')
@@ -47,8 +50,8 @@ export class Plant extends GameEntity {
   }
 
   updateStateSprout() {
-    this.size.width = 3
-    this.size.height = 3
+    this.size.width = 5
+    this.size.height = 5
 
     if (this.state.age.ms >= PlantSettings.SproutDurationMs) {
       this.state.set('Adolescent')
@@ -56,8 +59,8 @@ export class Plant extends GameEntity {
   }
 
   updateStateAdolescent() {
-    this.size.width = 5
-    this.size.height = 5
+    this.size.width = 9
+    this.size.height = 9
 
     if (this.state.age.ms >= PlantSettings.AsolescentDurationMs) {
       this.state.set('Mature')

@@ -7,7 +7,7 @@ export class StateTrait<S extends string> {
   previousState: null | S = null
   currentState: null | S = null
 
-  constructor(public owner: object) {}
+  constructor(public owner: object, public ageRandomization = 0) {}
 
   protected getStateCallback(baseName: string, state: null | S) {
     if (state) {
@@ -38,7 +38,7 @@ export class StateTrait<S extends string> {
     }
   }
 
-  set(newState: null | S) {
+  set(newState: null | S, ageRandomization?: number) {
     // If we're already in the given state, don't do anything.
     if (newState === this.currentState) {
       return
@@ -47,7 +47,11 @@ export class StateTrait<S extends string> {
     // Update our state variables.
     this.previousState = this.currentState
     this.currentState = newState
-    this.age._ms = 0
+    this.age._ms =
+      Math.random() *
+      (ageRandomization === undefined
+        ? this.ageRandomization
+        : ageRandomization)
 
     // Invoke leave/enter hooks.
     const leaveCb = this.getStateCallback('leaveState', this.previousState)

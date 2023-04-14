@@ -22,10 +22,3 @@ export type Vector2D = {
   x: number
   y: number
 }
-
-export type BoundingBoxInfo = {
-  top: () => number
-  bottom: () => number
-  left: () => number
-  right: () => number
-}

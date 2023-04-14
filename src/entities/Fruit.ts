@@ -1,21 +1,15 @@
-import type { Vector2D } from '../engine'
-import { PositionTrait, SizeTrait } from '../engine'
+import type { PositionTrait } from '../engine'
+import { SizeTrait } from '../engine'
 
 export class Fruit {
-  position
-  size = new SizeTrait(5, 5)
+  size
 
-  constructor(position: Vector2D) {
-    this.position = new PositionTrait(position, this.size)
+  constructor(position: PositionTrait) {
+    this.size = new SizeTrait(5, 5, position)
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = Color.Red
-    ctx.fillRect(
-      this.position.left,
-      this.position.top,
-      this.size.width,
-      this.size.height
-    )
+    this.size.fillRect(ctx)
   }
 }

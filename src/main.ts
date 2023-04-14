@@ -15,10 +15,11 @@ if (canvas) {
   game.registerEntity(new Ground(game))
   game.registerEntity(new Stats(game))
   for (let i = 0; i < 15; i++) {
-    const plant = new Plant(game, {
-      x: game.screenSize.width * Math.random(),
-      y: game.screenSize.height * Math.random()
-    })
+    const plant = new Plant(
+      game,
+      game.screenSize.width * Math.random(),
+      game.screenSize.height * Math.random()
+    )
     plant.state.set('Mature')
     game.registerEntity(plant)
   }

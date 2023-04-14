@@ -8,17 +8,13 @@ export class GameEngine {
   protected ctx: CanvasRenderingContext2D
   entities: IGameEntity[] = []
   screenSize
-  screen
 
   constructor(protected canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-    this.screenSize = new SizeTrait(this.canvas.width, this.canvas.height)
-    this.screen = new PositionTrait(
-      {
-        x: this.screenSize.width / 2,
-        y: this.screenSize.height / 2
-      },
-      this.screenSize
+    this.screenSize = new SizeTrait(
+      this.canvas.width,
+      this.canvas.height,
+      new PositionTrait(this.canvas.width / 2, this.canvas.height / 2)
     )
     this.step(0)
   }

@@ -1,12 +1,8 @@
 export class AgeTrait {
-  constructor(public _ms: number) {}
-
-  static use(initialAgeMs = 0) {
-    return new AgeTrait(initialAgeMs)
-  }
+  constructor(public _ms = 0) {}
 
   get ms() {
-    return this._ms
+    return Math.round(this._ms)
   }
 
   get seconds() {

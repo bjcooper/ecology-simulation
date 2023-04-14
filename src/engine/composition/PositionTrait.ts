@@ -11,10 +11,6 @@ export class PositionTrait {
     }
   }
 
-  static use(initialPosition: Vector2D, size: SizeTrait) {
-    return new PositionTrait(initialPosition, size)
-  }
-
   get x() {
     return this._position.x
   }
@@ -63,12 +59,12 @@ export class PositionTrait {
     )
   }
 
-  overlaps(other: BoundingBoxInfo) {
+  overlaps(other: PositionTrait) {
     return (
-      this.left <= other.right() &&
-      this.right >= other.left() &&
-      this.top <= other.bottom() &&
-      this.bottom >= other.top()
+      this.left <= other.right &&
+      this.right >= other.left &&
+      this.top <= other.bottom &&
+      this.bottom >= other.top
     )
   }
 

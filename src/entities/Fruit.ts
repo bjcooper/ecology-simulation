@@ -3,10 +3,10 @@ import { PositionTrait, SizeTrait } from '../engine'
 
 export class Fruit {
   position
-  size = SizeTrait.use({ x: 5, y: 5 })
+  size = new SizeTrait(5, 5)
 
   constructor(position: Vector2D) {
-    this.position = PositionTrait.use(position, this.size)
+    this.position = new PositionTrait(position, this.size)
   }
 
   draw(ctx: CanvasRenderingContext2D) {

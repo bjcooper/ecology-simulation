@@ -26,15 +26,15 @@ export class Stats extends GameEntity {
     ctx.textAlign = 'right'
     ctx.fillText(
       `${this.averageFps.toString()} FPS`,
-      this.game.worldSize.width - 7,
-      this.game.worldSize.height - 12
+      this.game.screenSize.width - 7,
+      this.game.screenSize.height - 12
     )
 
     // Print entity count.
     ctx.fillText(
       `${this.game.entities.length} entities`,
-      this.game.worldSize.width - 7,
-      this.game.worldSize.height - 30
+      this.game.screenSize.width - 7,
+      this.game.screenSize.height - 30
     )
   }
 }

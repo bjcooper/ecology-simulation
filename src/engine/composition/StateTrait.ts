@@ -2,25 +2,21 @@ import type { DrawCallback } from '..'
 import { AgeTrait } from './AgeTrait'
 
 export class StateTrait<S extends string> {
-  age = AgeTrait.use()
+  age = new AgeTrait()
   deltsMs = 0
   previousState: null | S = null
   currentState: null | S = null
 
-  constructor(public parent: object) {}
-
-  static use<S extends string>(parent: object) {
-    return new StateTrait<S>(parent)
-  }
+  constructor(public owner: object) {}
 
   protected getStateCallback(baseName: string, state: null | S) {
     if (state) {
       const cb = `${baseName}${state}`
       if (
-        cb in parent &&
-        typeof parent[cb as keyof typeof parent] === 'function'
+        cb in this.owner &&
+        typeof this.owner[cb as keyof typeof this.owner] === 'function'
       ) {
-        return parent[cb as keyof typeof parent] as () => void
+        return this.owner[cb as keyof typeof this.owner] as () => void
       }
     }
     return null
@@ -31,14 +27,14 @@ export class StateTrait<S extends string> {
     this.age.update(deltaMs)
     const cb = this.getStateCallback('updateState', this.currentState)
     if (cb) {
-      cb.call(parent)
+      cb.call(this.owner)
     }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     const cb = this.getStateCallback('drawState', this.currentState)
     if (cb) {
-      ;(cb as DrawCallback).call(parent, ctx)
+      ;(cb as DrawCallback).call(this.owner, ctx)
     }
   }
 
@@ -56,12 +52,12 @@ export class StateTrait<S extends string> {
     // Invoke leave/enter hooks.
     const leaveCb = this.getStateCallback('leaveState', this.previousState)
     if (leaveCb) {
-      leaveCb.call(parent)
+      leaveCb.call(this.owner)
     }
 
     const enterCb = this.getStateCallback('enterState', this.currentState)
     if (enterCb) {
-      enterCb.call(parent)
+      enterCb.call(this.owner)
     }
   }
 }

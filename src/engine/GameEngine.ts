@@ -7,21 +7,18 @@ export class GameEngine {
   protected lastRenderMs = 0
   protected ctx: CanvasRenderingContext2D
   entities: IGameEntity[] = []
-  worldSize
-  world
+  screenSize
+  screen
 
   constructor(protected canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-    this.worldSize = SizeTrait.use({
-      x: this.canvas.width,
-      y: this.canvas.height
-    })
-    this.world = PositionTrait.use(
+    this.screenSize = new SizeTrait(this.canvas.width, this.canvas.height)
+    this.screen = new PositionTrait(
       {
-        x: this.worldSize.width / 2,
-        y: this.worldSize.height / 2
+        x: this.screenSize.width / 2,
+        y: this.screenSize.height / 2
       },
-      this.worldSize
+      this.screenSize
     )
     this.step(0)
   }
@@ -54,7 +51,7 @@ export class GameEngine {
       }
 
       // Draw loop.
-      this.ctx.clearRect(0, 0, this.worldSize.width, this.worldSize.height)
+      this.ctx.clearRect(0, 0, this.screenSize.width, this.screenSize.height)
       for (const entity of this.entities) {
         if (entity.draw) {
           entity.draw(this.ctx)

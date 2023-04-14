@@ -6,13 +6,9 @@ export class SizeTrait {
     y: 0
   }
 
-  constructor(initialSize: Vector2D) {
-    this.width = initialSize.x
-    this.height = initialSize.y
-  }
-
-  static use(initialSize: Vector2D) {
-    return new SizeTrait(initialSize)
+  constructor(width: number, height: number) {
+    this.width = width
+    this.height = height
   }
 
   get width() {
@@ -29,9 +25,5 @@ export class SizeTrait {
 
   set height(_height: number) {
     this.size.y = Math.round(_height)
-  }
-
-  matches(other: Vector2D) {
-    return this.size.x === other.x && this.size.y === other.y
   }
 }

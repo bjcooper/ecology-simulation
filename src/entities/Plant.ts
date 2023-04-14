@@ -3,7 +3,6 @@ import { GameEntity, PositionTrait, SizeTrait, StateTrait } from '../engine'
 import { Fruit } from './Fruit'
 
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
-const minProximity = 30
 
 export class Plant extends GameEntity {
   position
@@ -15,11 +14,12 @@ export class Plant extends GameEntity {
   constructor(game: GameEngine, x: number, y: number) {
     super(game)
     this.state.set('Seed')
+    this.state.age._ms = Math.random() * PlantSettings.AgeRandomizationMs
     this.position = new PositionTrait(x, y)
     this.size = new SizeTrait(0, 0, this.position)
     this.proximitySensor = new SizeTrait(
-      minProximity,
-      minProximity,
+      PlantSettings.MinProximity,
+      PlantSettings.MinProximity,
       this.position
     )
   }
@@ -29,7 +29,7 @@ export class Plant extends GameEntity {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = Color.GreenDark
+    ctx.fillStyle = Color.Green
     this.size.fillRect(ctx)
 
     if (this.fruit) {
@@ -41,7 +41,7 @@ export class Plant extends GameEntity {
     this.size.width = 0
     this.size.height = 0
 
-    if (this.state.age.seconds >= 2) {
+    if (this.state.age.ms >= PlantSettings.SeedDurationMs) {
       this.state.set('Sprout')
     }
   }
@@ -50,7 +50,7 @@ export class Plant extends GameEntity {
     this.size.width = 3
     this.size.height = 3
 
-    if (this.state.age.seconds >= 2) {
+    if (this.state.age.ms >= PlantSettings.SproutDurationMs) {
       this.state.set('Adolescent')
     }
   }
@@ -59,7 +59,7 @@ export class Plant extends GameEntity {
     this.size.width = 5
     this.size.height = 5
 
-    if (this.state.age.seconds >= 2) {
+    if (this.state.age.ms >= PlantSettings.AsolescentDurationMs) {
       this.state.set('Mature')
     }
   }
@@ -72,7 +72,7 @@ export class Plant extends GameEntity {
       this.fruit = new Fruit(this.position)
     }
 
-    if (this.state.age.seconds >= 2) {
+    if (this.state.age.ms >= PlantSettings.MatureDurationMs) {
       this.state.set('Dead')
     }
   }
@@ -83,10 +83,14 @@ export class Plant extends GameEntity {
     while (newLocations.length < 4) {
       newLocations.push({ x: this.position.x, y: this.position.y })
     }
-    newLocations[0].y -= minProximity + Math.random() * minProximity
-    newLocations[1].y += minProximity + Math.random() * minProximity
-    newLocations[2].x -= minProximity + Math.random() * minProximity
-    newLocations[3].x += minProximity + Math.random() * minProximity
+    newLocations[0].y -=
+      PlantSettings.MinProximity + Math.random() * PlantSettings.MinProximity
+    newLocations[1].y +=
+      PlantSettings.MinProximity + Math.random() * PlantSettings.MinProximity
+    newLocations[2].x -=
+      PlantSettings.MinProximity + Math.random() * PlantSettings.MinProximity
+    newLocations[3].x +=
+      PlantSettings.MinProximity + Math.random() * PlantSettings.MinProximity
 
     // Remove the ones out of bounds and create new plants.
     let newPlants = newLocations

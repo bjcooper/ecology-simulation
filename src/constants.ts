@@ -30,3 +30,13 @@ export const Color = {
 export const Font = {
   UI: 'Mulish'
 }
+
+export const PlantSettings = {
+  StartingCount: 20,
+  MinProximity: 30,
+  AgeRandomizationMs: 1000,
+  SeedDurationMs: 2000,
+  SproutDurationMs: 2000,
+  AsolescentDurationMs: 2000,
+  MatureDurationMs: 2000
+}

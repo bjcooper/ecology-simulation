@@ -6,4 +6,5 @@ export {}
 declare global {
   const Color: typeof import('./src/constants')['Color']
   const Font: typeof import('./src/constants')['Font']
+  const PlantSettings: typeof import('./src/constants')['PlantSettings']
 }

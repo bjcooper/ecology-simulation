@@ -6,7 +6,7 @@ export class AgeTrait {
   }
 
   get seconds() {
-    return Math.round(this._ms / 1000)
+    return this._ms / 1000
   }
 
   update(deltaMs: number) {

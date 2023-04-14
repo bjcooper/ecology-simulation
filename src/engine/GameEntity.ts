@@ -1,15 +1,11 @@
-import type { GameEntity } from '.'
+import type { IGameEntity } from '.'
 import type { GameEngine } from './GameEngine'
 
-export abstract class GameEntityBase implements GameEntity {
+export abstract class GameEntity implements IGameEntity {
   game: GameEngine
 
   constructor(game: GameEngine) {
     this.game = game
-  }
-
-  add() {
-    this.game.registerEntity(this)
   }
 
   remove() {

@@ -1,7 +1,7 @@
 import type { GameEngine, Vector2D } from '../engine'
 import {
   AgeTrait,
-  GameEntityBase,
+  GameEntity,
   PositionTrait,
   SizeTrait,
   StateTrait
@@ -10,7 +10,7 @@ import { Fruit } from './Fruit'
 
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
 
-export class Plant extends GameEntityBase {
+export class Plant extends GameEntity {
   position
   size
   age = AgeTrait.use()

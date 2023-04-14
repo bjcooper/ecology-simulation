@@ -1,7 +1,7 @@
 import type { GameEngine } from './GameEngine'
 
 export { GameEngine } from './GameEngine'
-export { GameEntityBase } from './GameEntityBase'
+export { GameEntity } from './GameEntity'
 export { AgeTrait } from './composition/AgeTrait'
 export { PositionTrait } from './composition/PositionTrait'
 export { SizeTrait } from './composition/SizeTrait'
@@ -11,7 +11,7 @@ export type UpdateCallback = (deltaMs: number) => void
 
 export type DrawCallback = (ctx: CanvasRenderingContext2D) => void
 
-export interface GameEntity {
+export interface IGameEntity {
   game: GameEngine
   remove: () => void
   update?: UpdateCallback

@@ -1,6 +1,6 @@
-import { GameEntityBase } from '../engine'
+import { GameEntity } from '../engine'
 
-export class Stats extends GameEntityBase {
+export class Stats extends GameEntity {
   maxMeasurements = 10
   pastDeltasMs: number[] = []
   averageFps = 0

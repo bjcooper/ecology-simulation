@@ -1,4 +1,6 @@
+import { GameEngine } from 'super-simple-js-game-engine'
 import '../styles/styles.scss'
+import { Ground } from './entities/Ground'
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas#game-canvas')
 if (canvas) {
@@ -22,4 +24,3 @@ if (canvas) {
   // Play!
   game.play()
 }
-

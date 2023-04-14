@@ -1,3 +1,6 @@
+import { AgeTrait, GameEngine, GameEntityBase, PositionTrait, SizeTrait, StateTrait, Vector2D } from "super-simple-js-game-engine"
+import { Fruit } from "./Fruit"
+
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
 
 export class Plant extends GameEntityBase {
@@ -24,7 +27,7 @@ export class Plant extends GameEntityBase {
     this.position.fillRect(ctx)
 
     if (this.fruit) {
-      this.fruit.draw()
+      this.fruit.draw(ctx)
     }
   }
 

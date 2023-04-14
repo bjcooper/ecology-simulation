@@ -1,11 +1,13 @@
 {
   "dependencies": {
-    "modern-css-reset": "^1.4.0"
+    "modern-css-reset": "^1.4.0",
+    "super-simple-js-game-engine": "file:../other/super-simple-js-game-engine",
+    "unplugin-auto-import": "^0.15.3"
   },
   "devDependencies": {
+    "@types/node": "^18.15.11",
     "sass": "^1.59.3",
     "typescript": "^4.9.3",
-    "unplugin-auto-import": "^0.15.2",
     "vite": "^4.2.0"
   },
   "name": "eco-sim",

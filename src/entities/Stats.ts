@@ -1,3 +1,5 @@
+import { GameEntityBase } from "super-simple-js-game-engine"
+
 export class Stats extends GameEntityBase {
   maxMeasurements = 10
   pastDeltasMs: number[] = []

@@ -18,12 +18,9 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
   },
-  "extends": "../other/super-simple-js-game-engine/tsconfig.json",
   "include": [
-    "auto-imports.d.ts",
-    "vite-env.d.ts",
+    "*.d.ts",
     "src",
-    "../other/super-simple-js-game-engine/src/index.d.ts",
-    "../other/super-simple-js-game-engine/src/types.d.ts",
-  ]
+    "src/entities",
+  ],
 }

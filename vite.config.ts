@@ -10,7 +10,6 @@ export default defineConfig({
       ],
       dirs: [
         './src',
-        './src/entities',
       ]
     })
   ],

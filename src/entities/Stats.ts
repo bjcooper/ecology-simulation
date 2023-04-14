@@ -1,4 +1,4 @@
-import { GameEntityBase } from "super-simple-js-game-engine"
+import { GameEntityBase } from '../engine'
 
 export class Stats extends GameEntityBase {
   maxMeasurements = 10

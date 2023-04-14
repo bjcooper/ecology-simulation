@@ -1,4 +1,3 @@
-
 export const Color = {
   Red: '#D95A4E',
   RedDark: '#7A3B45',
@@ -25,7 +24,7 @@ export const Color = {
   GrayLight: '#B3AD9B',
   Gray: '#52504D',
   GrayDark: '#3B3837',
-  GrayExtraDark: '#292826',
+  GrayExtraDark: '#292826'
 }
 
 export const Font = {

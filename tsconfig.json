@@ -21,6 +21,5 @@
   "include": [
     "*.d.ts",
     "src",
-    "src/entities",
   ],
 }

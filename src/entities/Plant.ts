@@ -1,5 +1,12 @@
-import { AgeTrait, GameEngine, GameEntityBase, PositionTrait, SizeTrait, StateTrait, Vector2D } from "super-simple-js-game-engine"
-import { Fruit } from "./Fruit"
+import type { GameEngine, Vector2D } from '../engine'
+import {
+  AgeTrait,
+  GameEntityBase,
+  PositionTrait,
+  SizeTrait,
+  StateTrait
+} from '../engine'
+import { Fruit } from './Fruit'
 
 const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
 
@@ -7,7 +14,7 @@ export class Plant extends GameEntityBase {
   position
   size
   age = AgeTrait.use()
-  state = StateTrait.use<typeof states[number]>(this)
+  state = StateTrait.use<(typeof states)[number]>(this)
   fruit?: Fruit
 
   constructor(simulator: GameEngine, location: Vector2D) {
@@ -91,9 +98,7 @@ export class Plant extends GameEntityBase {
         x: this.position.x + offset,
         y: this.position.y
       }
-    ].filter(
-      position => this.game.world.contains(position)
-    )
+    ].filter(position => this.game.world.contains(position))
 
     // Get current plants so we don't plant more where one already exists.
     const plants = this.game.entities.filter(x => x instanceof Plant) as Plant[]

@@ -1,5 +1,5 @@
-import { GameEngine } from 'super-simple-js-game-engine'
 import '../styles/styles.scss'
+import { GameEngine } from './engine'
 import { Ground } from './entities/Ground'
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas#game-canvas')
@@ -10,7 +10,8 @@ if (canvas) {
   const game = new GameEngine(canvas)
 
   // Initialize entities.
-  game.registerEntity(new Ground(game))
+  Ground.create(game, 1)
+  // game.registerEntity(new Ground(game))
   // for (let i = 0; i < 15; i++) {
   //   const plant = new Plant(game, {
   //     x: game.worldSize.x * Math.random(),

@@ -1,5 +1,5 @@
-import { PositionTrait, SizeTrait } from "super-simple-js-game-engine"
-import type { Vector2D } from "super-simple-js-game-engine"
+import type { Vector2D } from '../engine'
+import { PositionTrait, SizeTrait } from '../engine'
 
 export class Fruit {
   position

@@ -1,13 +1,10 @@
-import type { Vector2D } from '..'
+import { Vector2D } from '..'
 
 export class PositionTrait {
   position: Vector2D
 
   constructor(x: number, y: number) {
-    this.position = {
-      x: Math.round(x),
-      y: Math.round(y)
-    }
+    this.position = new Vector2D(Math.round(x), Math.round(y))
   }
 
   get x() {

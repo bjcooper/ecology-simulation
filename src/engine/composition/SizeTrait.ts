@@ -1,10 +1,8 @@
-import type { PositionTrait, Vector2D } from '..'
+import type { PositionTrait } from '..'
+import { Vector2D } from '..'
 
 export class SizeTrait {
-  size: Vector2D = {
-    x: 0,
-    y: 0
-  }
+  size = new Vector2D()
 
   constructor(width: number, height: number, public _position: PositionTrait) {
     this.width = width

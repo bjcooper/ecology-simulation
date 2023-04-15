@@ -1,6 +1,5 @@
 import type { GameEngine } from '../engine'
 import { GameEntity, PositionTrait, SizeTrait, StateTrait } from '../engine'
-import { MovementTrait } from '../engine/composition/MovementTrait'
 
 const states = ['Calf', 'Adolescent', 'Adult', 'Old', 'Dead'] as const
 
@@ -12,33 +11,13 @@ export class Herbivore extends GameEntity {
     this,
     HerbivoreSettings.AgeRandomizationMs
   )
-  movement
 
   constructor(game: GameEngine, x: number, y: number) {
     super(game)
     this.state.age._ms = Math.random() * PlantSettings.AgeRandomizationMs
     this.position = new PositionTrait(x, y)
-    this.size = new SizeTrait(0, 0, this.position)
-    this.movement = new MovementTrait(this.position)
+    this.size = new SizeTrait(7, 7, this.position)
     this.state.set('Calf')
-  }
-
-  update(deltaMs: number) {
-    this.state.update(deltaMs)
-    this.movement.update(deltaMs)
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = Color.OrangeLight
-    this.size.fillRect(ctx)
-  }
-
-  /**
-   * Calf state.
-   */
-  enterStateCalf() {
-    this.size.width = 7
-    this.size.height = 7
   }
 
   updateStateCalf() {
@@ -47,11 +26,8 @@ export class Herbivore extends GameEntity {
     }
   }
 
-  /**
-   * Adolescent state.
-   */
   enterStateAdolescent() {
-    this.grow(HerbivoreSettings.AgeBasedGrowth)
+    this.grow(4)
   }
 
   updateStateAdolescent() {
@@ -60,11 +36,8 @@ export class Herbivore extends GameEntity {
     }
   }
 
-  /**
-   * Adult state.
-   */
   enterStateAdult() {
-    this.grow(HerbivoreSettings.AgeBasedGrowth)
+    this.grow(4)
   }
 
   updateStateAdult() {
@@ -73,11 +46,8 @@ export class Herbivore extends GameEntity {
     }
   }
 
-  /**
-   * Old state.
-   */
   enterStateOld() {
-    this.grow(HerbivoreSettings.AgeBasedGrowth)
+    this.grow(4)
   }
 
   updateStateOld() {
@@ -87,8 +57,16 @@ export class Herbivore extends GameEntity {
   }
 
   enterStateDead() {
-    this.state.set('Calf')
-    // this.remove()
+    this.remove()
+  }
+
+  update(deltaMs: number) {
+    this.state.update(deltaMs)
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = Color.OrangeLight
+    this.size.fillRect(ctx)
   }
 
   protected grow(amount: number) {

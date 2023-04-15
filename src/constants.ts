@@ -51,6 +51,7 @@ export const PlantSettings = {
 
 export const HerbivoreSettings = {
   StartingCount: 10,
+  AgeBasedGrowth: 4,
   AgeRandomizationMs: 1000,
   CalfDurationMs: 3000,
   AdolescentDurationMs: 3000,

@@ -19,7 +19,23 @@ export interface IGameEntity {
   draw?: DrawCallback
 }
 
-export type Vector2D = {
+export class Vector2D {
   x: number
   y: number
+
+  constructor(x = 0, y = 0) {
+    this.x = x
+    this.y = y
+  }
+
+  /**
+   * Return a unit vector.
+   */
+  get unit() {
+    const magnitude = this.x + this.y
+    if (magnitude === 0) {
+      return new Vector2D(0, 0)
+    }
+    return new Vector2D(this.x / magnitude, this.y / magnitude)
+  }
 }

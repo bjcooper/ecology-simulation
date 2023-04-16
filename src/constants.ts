@@ -1,3 +1,5 @@
+import { seconds, perSecond } from './engine/utils'
+
 export const Color = {
   Red: '#D95A4E',
   RedDark: '#7A3B45',
@@ -39,22 +41,48 @@ export const RenderLayers = {
   UI: 1000
 }
 
+export const GeneralSettings = {
+  Hunger: {
+    RateMs: perSecond(1).ms,
+    HungerThresholdPercent: 0.5,
+    StarvationDamagePerMs: perSecond(1).ms,
+    SatedHealingPerMs: perSecond(1).ms
+  }
+}
+
 export const PlantSettings = {
   StartingCount: 20,
   MinProximity: 30,
-  AgeRandomizationMs: 2000,
-  SeedDurationMs: 5000,
-  SproutDurationMs: 5000,
-  AsolescentDurationMs: 10000,
-  MatureDurationMs: 5000
+  AgeRandomizationMs: seconds(2).ms,
+  SeedDurationMs: seconds(5).ms,
+  SproutDurationMs: seconds(5).ms,
+  AsolescentDurationMs: seconds(10).ms,
+  MatureDurationMs: seconds(5).ms
 }
 
 export const HerbivoreSettings = {
+  // General
   StartingCount: 10,
-  AgeBasedGrowth: 4,
-  AgeRandomizationMs: 1000,
-  CalfDurationMs: 3000,
-  AdolescentDurationMs: 3000,
-  AdultDurationMs: 10000,
-  OldDurationMs: 3000
+  AgeBasedSizeGrowth: 4,
+  AgeRandomizationMs: seconds(1).ms,
+  WalkSpeedPerSec: 10,
+  Calf: {
+    Health: 10,
+    AgeDurationMs: seconds(3).ms,
+    PreferredDistanceToAdult: 18,
+    RunSpeedPerSec: 20,
+    NurseChancePerMs: perSecond(0.5).ms,
+    NurseFoodPerMs: perSecond(2).ms,
+    MaxHungerMs: seconds(4).ms
+  },
+  Adolescent: {
+    AgeDurationMs: seconds(3).ms,
+    RunSpeedPerSec: 30
+  },
+  Adult: {
+    AgeDurationMs: seconds(10).ms
+  },
+  Old: {
+    AgeDurationMs: seconds(3).ms
+  }
 }

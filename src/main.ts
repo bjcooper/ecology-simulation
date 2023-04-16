@@ -1,7 +1,8 @@
 import '../styles/styles.scss'
 import { GameEngine } from './engine'
+import { pick } from './engine/utils'
 import { Ground } from './entities/Ground'
-import { Herbivore } from './entities/Herbivore'
+import { AnimalStates, Herbivore } from './entities/Herbivore'
 import { Plant } from './entities/Plant'
 import { Stats } from './entities/Stats'
 
@@ -32,6 +33,7 @@ if (canvas) {
       game.screenSize.width * Math.random(),
       game.screenSize.height * Math.random()
     )
+    herbivore.state.set(pick(...AnimalStates))
     game.registerEntity(herbivore)
   }
 

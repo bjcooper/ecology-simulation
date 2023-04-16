@@ -2,7 +2,7 @@ import type { PositionTrait } from '..'
 import { Vector2D } from '..'
 
 export class SizeTrait {
-  size = new Vector2D()
+  dimensions = new Vector2D()
 
   constructor(width: number, height: number, public _position: PositionTrait) {
     this.width = width
@@ -10,42 +10,39 @@ export class SizeTrait {
   }
 
   get width() {
-    return this.size.x
+    return this.dimensions.x
   }
 
   set width(_width: number) {
-    this.size.x = Math.round(_width)
+    this.dimensions.x = Math.round(_width)
   }
 
   get height() {
-    return this.size.y
+    return this.dimensions.y
   }
 
   set height(_height: number) {
-    this.size.y = Math.round(_height)
+    this.dimensions.y = Math.round(_height)
   }
 
   get topLeft() {
-    return {
-      x: this.left,
-      y: this.top
-    }
+    return new Vector2D(this.left, this.top)
   }
 
   get left() {
-    return Math.round(this._position.x - this.width / 2)
+    return Math.round(this._position.screenX - this.width / 2)
   }
 
   get right() {
-    return Math.round(this._position.x + this.width / 2)
+    return Math.round(this._position.screenX + this.width / 2)
   }
 
   get top() {
-    return Math.round(this._position.y - this.height / 2)
+    return Math.round(this._position.screenY - this.height / 2)
   }
 
   get bottom() {
-    return Math.round(this._position.y + this.height / 2)
+    return Math.round(this._position.screenY + this.height / 2)
   }
 
   contains(point: Vector2D) {

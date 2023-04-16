@@ -1,4 +1,5 @@
 import type { GameEngine } from '../engine'
+import { Vector2D } from '../engine'
 import { GameEntity, PositionTrait, SizeTrait, StateTrait } from '../engine'
 import { Fruit } from './Fruit'
 
@@ -84,7 +85,9 @@ export class Plant extends GameEntity {
     // Generate some potential seed locations.
     const newLocations = []
     while (newLocations.length < 4) {
-      newLocations.push({ x: this.position.x, y: this.position.y })
+      newLocations.push(
+        new Vector2D(this.position.screenX, this.position.screenY)
+      )
     }
     newLocations[0].y -=
       PlantSettings.MinProximity + Math.random() * PlantSettings.MinProximity
@@ -97,7 +100,7 @@ export class Plant extends GameEntity {
 
     // Remove the ones out of bounds and create new plants.
     let newPlants = newLocations
-      .filter(position => this.game.screenSize.contains(position))
+      .filter(location => this.game.screenSize.contains(location))
       .map(location => {
         return new Plant(this.game, location.x, location.y)
       })

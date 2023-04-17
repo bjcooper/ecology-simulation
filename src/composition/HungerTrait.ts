@@ -1,3 +1,6 @@
+import type { GameEntity } from '../engine'
+import { FoodTrait } from './FoodTrait'
+
 export class HungerTrait {
   /**
    * It's convenient to measure hunger in milliseconds, which is essentially
@@ -5,18 +8,27 @@ export class HungerTrait {
    * organism is starving.
    */
   currentMs: number
-  maxMs: number
+  protected _maxMs: number
 
-  constructor(max: number, current?: number) {
-    this.maxMs = max
+  constructor(public owner: GameEntity, max: number, current?: number) {
+    this._maxMs = max
     this.currentMs = current === undefined ? 0 : current
   }
 
+  get maxMs() {
+    return this._maxMs
+  }
+
+  set maxMs(maxMs: number) {
+    this._maxMs = maxMs
+    this.currentMs = Math.min(this.currentMs, this.maxMs)
+  }
+
   get percent() {
-    if (this.maxMs <= 0) {
+    if (this._maxMs <= 0) {
       return 1
     }
-    return this.currentMs / this.maxMs
+    return this.currentMs / this._maxMs
   }
 
   get isHungry() {
@@ -28,17 +40,21 @@ export class HungerTrait {
   }
 
   get isStarving() {
-    return this.currentMs === this.maxMs
+    return this.currentMs === this._maxMs
   }
 
   update(deltaMs: number) {
-    this.currentMs = Math.min(
-      this.maxMs,
-      this.currentMs + GeneralSettings.Hunger.RateMs * deltaMs
-    )
+    this.currentMs = Math.min(this._maxMs, this.currentMs + deltaMs)
   }
 
-  eat(amount: number) {
-    this.currentMs = Math.max(0, this.currentMs - amount)
+  eat(food?: FoodTrait | number) {
+    const amountMs =
+      food instanceof FoodTrait
+        ? food.eat(this.owner)
+        : food === undefined
+        ? this._maxMs
+        : food
+    this.currentMs = Math.max(0, this.currentMs - amountMs)
+    return amountMs
   }
 }

@@ -43,7 +43,6 @@ export const RenderLayers = {
 
 export const GeneralSettings = {
   Hunger: {
-    RateMs: perSecond(1).ms,
     HungerThresholdPercent: 0.5,
     StarvationDamagePerMs: perSecond(1).ms,
     SatedHealingPerMs: perSecond(1).ms
@@ -51,13 +50,25 @@ export const GeneralSettings = {
 }
 
 export const PlantSettings = {
-  StartingCount: 20,
+  StartingCount: 40,
   MinProximity: 30,
   AgeRandomizationMs: seconds(2).ms,
-  SeedDurationMs: seconds(5).ms,
-  SproutDurationMs: seconds(5).ms,
-  AsolescentDurationMs: seconds(10).ms,
-  MatureDurationMs: seconds(5).ms
+  Seed: {
+    AgeDurationMs: seconds(5).ms,
+    FoodValueMs: 0
+  },
+  Sprout: {
+    AgeDurationMs: seconds(5).ms,
+    FoodValueMs: 0
+  },
+  Adolescent: {
+    AgeDurationMs: seconds(10).ms,
+    FoodValueMs: seconds(5).ms
+  },
+  Mature: {
+    AgeDurationMs: seconds(5).ms,
+    FoodValueMs: seconds(10).ms
+  }
 }
 
 export const HerbivoreSettings = {
@@ -65,24 +76,32 @@ export const HerbivoreSettings = {
   StartingCount: 10,
   AgeBasedSizeGrowth: 4,
   AgeRandomizationMs: seconds(1).ms,
-  WalkSpeedPerSec: 10,
+  WalkSpeedPerSec: 20,
+  WanderSpeedPerSec: 10,
   Calf: {
     Health: 10,
-    AgeDurationMs: seconds(3).ms,
-    PreferredDistanceToAdult: 18,
     RunSpeedPerSec: 20,
-    NurseChancePerMs: perSecond(0.5).ms,
-    NurseFoodPerMs: perSecond(2).ms,
-    MaxHungerMs: seconds(4).ms
+    PreferredDistanceToAdult: 18,
+    AgeDurationMs: seconds(15).ms,
+    MaxHungerMs: seconds(5).ms,
+    NursingDurationMs: seconds(1).ms
   },
   Adolescent: {
-    AgeDurationMs: seconds(3).ms,
-    RunSpeedPerSec: 30
+    Health: 15,
+    RunSpeedPerSec: 30,
+    AgeDurationMs: seconds(15).ms,
+    MaxHungerMs: seconds(10).ms
   },
   Adult: {
-    AgeDurationMs: seconds(10).ms
+    Health: 20,
+    RunSpeedPerSec: 30,
+    AgeDurationMs: seconds(15).ms,
+    MaxHungerMs: seconds(10).ms
   },
   Old: {
-    AgeDurationMs: seconds(3).ms
+    Health: 10,
+    RunSpeedPerSec: 20,
+    AgeDurationMs: seconds(15).ms,
+    MaxHungerMs: seconds(10).ms
   }
 }

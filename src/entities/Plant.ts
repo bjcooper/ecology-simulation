@@ -1,20 +1,21 @@
+import { FoodTrait } from '../composition/FoodTrait'
 import type { GameEngine } from '../engine'
 import { Vector2D } from '../engine'
 import { GameEntity, PositionTrait, SizeTrait, StateTrait } from '../engine'
 import { Fruit } from './Fruit'
 
-const states = ['Seed', 'Sprout', 'Adolescent', 'Mature', 'Dead'] as const
+export const PlantStates = ['Seed', 'Sprout', 'Adolescent', 'Mature'] as const
+
+export type PlantState = (typeof PlantStates)[number]
 
 export class Plant extends GameEntity {
   layer = RenderLayers.Plants
   position
   size
   proximitySensor
-  state = new StateTrait<(typeof states)[number]>(
-    this,
-    PlantSettings.AgeRandomizationMs
-  )
   fruit?: Fruit
+  state = new StateTrait<PlantState>(this, PlantSettings.AgeRandomizationMs)
+  asFood = new FoodTrait(0, this.eaten.bind(this))
 
   constructor(game: GameEngine, x: number, y: number) {
     super(game)
@@ -42,28 +43,31 @@ export class Plant extends GameEntity {
   }
 
   updateStateSeed() {
-    this.size.width = 3
-    this.size.height = 3
+    this.size.width = 1
+    this.size.height = 1
+    this.asFood.valueMs = PlantSettings.Seed.FoodValueMs
 
-    if (this.state.age.ms >= PlantSettings.SeedDurationMs) {
+    if (this.state.age.ms >= PlantSettings.Seed.AgeDurationMs) {
       this.state.set('Sprout')
     }
   }
 
   updateStateSprout() {
-    this.size.width = 5
-    this.size.height = 5
+    this.size.width = 3
+    this.size.height = 3
+    this.asFood.valueMs = PlantSettings.Sprout.FoodValueMs
 
-    if (this.state.age.ms >= PlantSettings.SproutDurationMs) {
+    if (this.state.age.ms >= PlantSettings.Sprout.AgeDurationMs) {
       this.state.set('Adolescent')
     }
   }
 
   updateStateAdolescent() {
-    this.size.width = 9
-    this.size.height = 9
+    this.size.width = 5
+    this.size.height = 5
+    this.asFood.valueMs = PlantSettings.Adolescent.FoodValueMs
 
-    if (this.state.age.ms >= PlantSettings.AsolescentDurationMs) {
+    if (this.state.age.ms >= PlantSettings.Adolescent.AgeDurationMs) {
       this.state.set('Mature')
     }
   }
@@ -71,17 +75,18 @@ export class Plant extends GameEntity {
   updateStateMature() {
     this.size.width = 9
     this.size.height = 9
+    this.asFood.valueMs = PlantSettings.Mature.FoodValueMs
 
     if (!this.fruit) {
       this.fruit = new Fruit(this.position)
     }
 
-    if (this.state.age.ms >= PlantSettings.MatureDurationMs) {
-      this.state.set('Dead')
+    if (this.state.age.ms >= PlantSettings.Mature.AgeDurationMs) {
+      this.die()
     }
   }
 
-  updateStateDead() {
+  die() {
     // Generate some potential seed locations.
     const newLocations = []
     while (newLocations.length < 4) {
@@ -120,6 +125,10 @@ export class Plant extends GameEntity {
       this.game.registerEntity(newPlant)
     }
 
+    this.remove()
+  }
+
+  eaten() {
     this.remove()
   }
 }

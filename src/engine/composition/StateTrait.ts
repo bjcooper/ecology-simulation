@@ -39,11 +39,6 @@ export class StateTrait<S extends string> {
   }
 
   set(newState: null | S, ageRandomization?: number) {
-    // If we're already in the given state, don't do anything.
-    if (newState === this.currentState) {
-      return
-    }
-
     // Update our state variables.
     this.previousState = this.currentState
     this.currentState = newState

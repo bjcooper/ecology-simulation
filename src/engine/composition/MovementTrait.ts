@@ -8,6 +8,12 @@ export class MovementTrait {
 
   constructor(public _position: PositionTrait) {}
 
+  get isMoving() {
+    return (
+      this.speedPerSec > 0 && (this.direction.x !== 0 || this.direction.y !== 0)
+    )
+  }
+
   update(deltaMs: number) {
     const deltaSec = milliseconds(deltaMs).sec
     this._position.x += this.direction.unit.x * (this.speedPerSec * deltaSec)

@@ -78,6 +78,7 @@ export const HerbivoreSettings = {
   MateHealthPercent: 0.5,
   MateDurationMs: seconds(4).ms,
   PregnancyDurationMs: seconds(10).ms,
+  DigestionDurationMs: seconds(5).ms,
   WalkSpeedPerSec: 20,
   WanderSpeedPerSec: 10,
   Calf: {
@@ -98,7 +99,7 @@ export const HerbivoreSettings = {
     Health: 20,
     RunSpeedPerSec: 30,
     AgeDurationMs: seconds(15).ms,
-    MaxHungerMs: seconds(10).ms
+    MaxHungerMs: seconds(15).ms
   },
   Old: {
     Health: 10,

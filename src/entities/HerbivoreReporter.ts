@@ -10,6 +10,7 @@ type Elements = {
   hungerProgress: ProgressBar
   behavior: HTMLTableCellElement
   pregnancyProgress: ProgressBar
+  digestionProgress: ProgressBar
 }
 
 export class HerbivoreReporter extends GameEntity {
@@ -72,6 +73,14 @@ export class HerbivoreReporter extends GameEntity {
       } else {
         this.herbivoreEls[id].pregnancyProgress.update(0)
       }
+
+      if (herbivore.digestion) {
+        this.herbivoreEls[id].digestionProgress.update(
+          herbivore.digestion.ms / HerbivoreSettings.DigestionDurationMs
+        )
+      } else {
+        this.herbivoreEls[id].digestionProgress.update(0)
+      }
     }
   }
 
@@ -108,6 +117,11 @@ export class HerbivoreReporter extends GameEntity {
     row.append(pregnancyProgressCell)
     const pregnancyProgress = new ProgressBar(pregnancyProgressCell)
 
+    // Add a pregnancy progress cell and progress bar.
+    const digestionProgressCell = document.createElement('td')
+    row.append(digestionProgressCell)
+    const digestionProgress = new ProgressBar(digestionProgressCell)
+
     return {
       row,
       age,
@@ -115,7 +129,8 @@ export class HerbivoreReporter extends GameEntity {
       healthProgress,
       hungerProgress,
       behavior,
-      pregnancyProgress
+      pregnancyProgress,
+      digestionProgress
     }
   }
 }

@@ -36,6 +36,7 @@ export class Herbivore extends GameEntity {
   size
   movement
   pregnancy?: AgeTrait
+  digestion?: AgeTrait
   ageState = new StateTrait<HerbivoreAge>(
     this,
     HerbivoreSettings.AgeRandomizationMs
@@ -130,12 +131,20 @@ export class Herbivore extends GameEntity {
 
     // Apply health.
     if (this.health.isDead) {
-      console.log('Died of starvation')
       this.behaviorState.set('Die')
     }
 
     // Apply movement.
     this.movement.update(deltaMs)
+
+    // Update poop timer.
+    if (this.digestion) {
+      this.digestion.update(deltaMs)
+      if (this.digestion.ms >= HerbivoreSettings.DigestionDurationMs) {
+        this.digestion = undefined
+        new Plant(this.game, this.position.x, this.position.y).add()
+      }
+    }
 
     // Update pregnancy timer.
     if (this.pregnancy) {
@@ -287,6 +296,7 @@ export class Herbivore extends GameEntity {
     // Once we've finished eating, consume the plant and go back to wandering.
     if (this.behaviorState.age.ms >= HerbivoreSettings.EatDurationMs) {
       this.hunger.eat(this.plant.entity.eatable)
+      this.digestion = new AgeTrait()
       this.behaviorState.set('Wander')
     }
   }

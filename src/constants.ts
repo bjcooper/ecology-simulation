@@ -74,6 +74,7 @@ export const HerbivoreSettings = {
   StartingCount: 10,
   AgeBasedSizeGrowth: 4,
   AgeRandomizationMs: seconds(1).ms,
+  EatDurationMs: seconds(2).ms,
   WalkSpeedPerSec: 20,
   WanderSpeedPerSec: 10,
   Calf: {

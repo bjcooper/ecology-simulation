@@ -20,6 +20,7 @@ export const HerbivoreBehaviors = [
   'SeekAdult',
   'Nurse',
   'SeekFood',
+  'Eat',
   'Wander',
   'Die'
 ] as const
@@ -82,6 +83,12 @@ export class Herbivore extends GameEntity {
           distance
         }
       : null
+  }
+
+  add() {
+    // Spawn with full health.
+    this.health.current = this.health.max
+    super.add()
   }
 
   update(deltaMs: number) {
@@ -156,6 +163,12 @@ export class Herbivore extends GameEntity {
    */
 
   updateStateSeekAdult() {
+    // If we grow up while seeking adult, start wandering.
+    if (this.ageState.currentState !== 'Calf') {
+      this.behaviorState.set('Wander')
+      return
+    }
+
     // Find the closest adult.
     if (this.closestAdult) {
       // If we're not close enough to the adult, move toward it.
@@ -170,11 +183,11 @@ export class Herbivore extends GameEntity {
       } else {
         this.behaviorState.set('Nurse')
       }
+      return
     }
+
     // If we can't find an adult, freeze.
-    else {
-      this.movement.stop()
-    }
+    this.movement.stop()
   }
 
   updateStateNurse() {
@@ -197,11 +210,17 @@ export class Herbivore extends GameEntity {
   }
 
   updateStateSeekFood() {
+    // When we're no longer hungry, stop seeking food.
+    if (!this.hunger.isHungry) {
+      this.behaviorState.set('Wander')
+      return
+    }
+
     // Find the closest plant.
     if (this.closestPlant) {
       // If we're touching it, eat it.
       if (this.size.overlaps(this.closestPlant.entity.size)) {
-        this.hunger.eat(this.closestPlant.entity.eatable)
+        this.behaviorState.set('Eat')
       }
       // Otherwise, walk toward it.
       else {
@@ -210,6 +229,20 @@ export class Herbivore extends GameEntity {
           HerbivoreSettings.WalkSpeedPerSec
         )
       }
+    }
+  }
+
+  updateStateEat() {
+    // If the plant we're eating is gone, go back to looking.
+    if (!this.closestPlant?.entity.eatable) {
+      this.behaviorState.set('SeekFood')
+      return
+    }
+
+    // Once we've finished eating, consume the plant and go back to wandering.
+    if (this.behaviorState.age.ms >= HerbivoreSettings.EatDurationMs) {
+      this.hunger.eat(this.closestPlant.entity.eatable)
+      this.behaviorState.set('Wander')
     }
   }
 

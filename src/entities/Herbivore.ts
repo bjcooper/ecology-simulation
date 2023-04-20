@@ -61,8 +61,8 @@ export class Herbivore extends GameEntity {
     )
   }
 
-  get isPregnant() {
-    return Boolean(this.pregnancy)
+  get isFertile() {
+    return !this.pregnancy && this.ageState.currentState === 'Adult'
   }
 
   get mom() {
@@ -228,6 +228,10 @@ export class Herbivore extends GameEntity {
     this.movement.stop()
   }
 
+  enterStateNurse() {
+    this.movement.stop()
+  }
+
   updateStateNurse() {
     // Find the closest adult. If we're close enough, attempt to nurse.
     if (
@@ -267,6 +271,10 @@ export class Herbivore extends GameEntity {
         )
       }
     }
+  }
+
+  enterStateEat() {
+    this.movement.stop()
   }
 
   updateStateEat() {
@@ -313,11 +321,11 @@ export class Herbivore extends GameEntity {
   }
 
   enterStateWander() {
-    // If we're full, healthy, and not pregnant, look for a mate.
+    // If we're full, healthy, and fertile, look for a mate.
     if (
       this.hunger.isSated &&
       this.health.percent > HerbivoreSettings.MateHealthPercent &&
-      !this.isPregnant
+      this.isFertile
     ) {
       this.behaviorState.set('SeekMate')
       return

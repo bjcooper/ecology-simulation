@@ -71,13 +71,13 @@ export const PlantSettings = {
 
 export const HerbivoreSettings = {
   // General
-  StartingCount: 10,
+  StartingCount: 20,
   AgeBasedSizeGrowth: 4,
-  AgeRandomizationMs: seconds(1).ms,
+  AgeRandomizationMs: seconds(2).ms,
   EatDurationMs: seconds(2).ms,
   MateHealthPercent: 0.5,
-  MateDurationMs: seconds(15).ms,
-  PregnancyDurationMs: seconds(5).ms,
+  MateDurationMs: seconds(4).ms,
+  PregnancyDurationMs: seconds(10).ms,
   WalkSpeedPerSec: 20,
   WanderSpeedPerSec: 10,
   Calf: {

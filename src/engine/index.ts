@@ -13,6 +13,7 @@ export type UpdateCallback = (deltaMs: number) => void
 export type DrawCallback = (ctx: CanvasRenderingContext2D) => void
 
 export interface IGameEntity {
+  id: number
   layer: number
   game: GameEngine
   remove: () => void

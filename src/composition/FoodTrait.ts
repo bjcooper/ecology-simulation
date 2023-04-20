@@ -6,7 +6,7 @@ export class FoodTrait {
     public onEatenCallback?: (eater: GameEntity) => void
   ) {}
 
-  get isEdible() {
+  get isNutritious() {
     return this.valueMs > 0
   }
 

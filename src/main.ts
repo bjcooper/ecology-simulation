@@ -3,19 +3,20 @@ import { GameEngine } from './engine'
 import { pick } from './engine/utils'
 import { Ground } from './entities/Ground'
 import { Herbivore } from './entities/Herbivore'
-import { Plant, PlantStates } from './entities/Plant'
+import { HerbivoreReporter } from './entities/HerbivoreReporter'
+import { Plant } from './entities/Plant'
+import { PlantReporter } from './entities/PlantReporter'
 import { Stats } from './entities/Stats'
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas#game-canvas')
 if (canvas) {
   // Initialize our game engine.
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  canvas.width = 600
+  canvas.height = 600
   const game = new GameEngine(canvas)
 
   // Initialize entities.
-  game.registerEntity(new Ground(game))
-  game.registerEntity(new Stats(game))
+  new Ground(game).add()
 
   // Spawn plants.
   for (let i = 0; i < PlantSettings.StartingCount; i++) {
@@ -24,8 +25,8 @@ if (canvas) {
       game.screenSize.width * Math.random(),
       game.screenSize.height * Math.random()
     )
-    plant.state.set(pick(...PlantStates))
-    game.registerEntity(plant)
+    plant.state.set(pick('Seed', 'Sprout', 'Adolescent', 'Mature'))
+    plant.add()
   }
 
   // Spawn herbivores.
@@ -35,10 +36,14 @@ if (canvas) {
       game.screenSize.width * Math.random(),
       game.screenSize.height * Math.random()
     )
-    // herbivore.state.set(pick('Calf', 'Adolescent', 'Adult', 'Old'))
-    herbivore.ageState.set(pick('Adolescent'))
-    game.registerEntity(herbivore)
+    herbivore.ageState.set(pick('Calf', 'Adolescent', 'Adult', 'Old'))
+    herbivore.add()
   }
+
+  // Add stats and reporters.
+  new Stats(game).add()
+  new PlantReporter(game).add()
+  new HerbivoreReporter(game).add()
 
   // Play!
   game.play()

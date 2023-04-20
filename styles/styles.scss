@@ -32,11 +32,63 @@
 
 body {
   display: flex;
-  flex-direction: column;
+  font-family: 'Mulish', sans-serif;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--c-gray-xdark);
 }
 
 #game-canvas {
   background: var(--c-gray-xdark);
-  flex: 1;
   image-rendering: pixelated;
 }
+
+.stats {
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.25rem;
+  text-align: left;
+}
+
+th {
+  border-bottom: 2px solid var(--c-gray-xlight);
+}
+
+td {
+  border-bottom: 1px solid var(--c-gray-xlight);
+
+  .progress-bar__label {
+    display: none;
+    min-width: 4.5ch;
+  }
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar__track {
+  background: var(--c-gray-xlight);
+  width: 100px;
+  height: 10px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar__bar {
+  background: var(--c-blue-dark);
+  height: 100%;
+  border-radius: 2px;
+}
+

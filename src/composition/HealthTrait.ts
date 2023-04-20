@@ -11,6 +11,10 @@ export class HealthTrait {
     return this.current === 0
   }
 
+  get percent() {
+    return this.max === 0 ? 0 : this.current / this.max
+  }
+
   heal(amount: number) {
     this.current = Math.min(this.max, this.current + amount)
   }

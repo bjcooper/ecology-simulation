@@ -6,7 +6,13 @@ import { GameEntity, PositionTrait, SizeTrait, StateTrait } from '../engine'
 import { MovementTrait } from '../engine/composition/MovementTrait'
 import { Plant } from './Plant'
 
-export const HerbivoreAges = ['Calf', 'Adolescent', 'Adult', 'Old'] as const
+export const HerbivoreAges = [
+  'Calf',
+  'Adolescent',
+  'Adult',
+  'Old',
+  'Dead'
+] as const
 
 export type HerbivoreAge = (typeof HerbivoreAges)[number]
 
@@ -56,31 +62,35 @@ export class Herbivore extends GameEntity {
         other => other instanceof Herbivore && other.isAdult
       ) as Herbivore[]
     )
-    return {
-      entity: closest,
-      distance
-    }
+    return closest
+      ? {
+          entity: closest,
+          distance
+        }
+      : null
   }
 
   get closestPlant() {
     const { closest, distance } = this.position.closest(
       this.game.entities.filter(
-        plant => plant instanceof Plant && plant.asFood.isEdible
+        plant => plant instanceof Plant && plant.eatable
       ) as Plant[]
     )
-    return {
-      entity: closest,
-      distance
-    }
+    return closest
+      ? {
+          entity: closest,
+          distance
+        }
+      : null
   }
 
   update(deltaMs: number) {
     // Apply hunger.
     this.hunger.update(deltaMs)
     if (this.hunger.isStarving) {
-      this.health.damage(GeneralSettings.Hunger.StarvationDamagePerMs)
+      this.health.damage(GeneralSettings.Hunger.StarvationDamagePerMs * deltaMs)
     } else if (!this.hunger.isHungry) {
-      this.health.heal(GeneralSettings.Hunger.SatedHealingPerMs)
+      this.health.heal(GeneralSettings.Hunger.SatedHealingPerMs * deltaMs)
     }
 
     // Apply state.
@@ -107,6 +117,7 @@ export class Herbivore extends GameEntity {
    */
 
   enterStateCalf() {
+    this.ageState.next('Adolescent', HerbivoreSettings.Calf.AgeDurationMs)
     this.size.width = 7
     this.size.height = 7
     this.health.max = HerbivoreSettings.Calf.Health
@@ -114,48 +125,30 @@ export class Herbivore extends GameEntity {
     this.behaviorState.set('SeekAdult')
   }
 
-  updateStateCalf() {
-    if (this.ageState.age.ms >= HerbivoreSettings.Calf.AgeDurationMs) {
-      this.ageState.set('Adolescent')
-    }
-  }
-
   enterStateAdolescent() {
+    this.ageState.next('Adult', HerbivoreSettings.Adolescent.AgeDurationMs)
     this.health.max = HerbivoreSettings.Adolescent.Health
     this.hunger.maxMs = HerbivoreSettings.Adolescent.MaxHungerMs
     this.grow(HerbivoreSettings.AgeBasedSizeGrowth)
     this.behaviorState.set('Wander')
   }
 
-  updateStateAdolescent() {
-    if (this.ageState.age.ms >= HerbivoreSettings.Adolescent.AgeDurationMs) {
-      this.ageState.set('Adult')
-    }
-  }
-
   enterStateAdult() {
+    this.ageState.next('Old', HerbivoreSettings.Adult.AgeDurationMs)
     this.health.max = HerbivoreSettings.Adult.Health
     this.hunger.maxMs = HerbivoreSettings.Adult.MaxHungerMs
     this.grow(HerbivoreSettings.AgeBasedSizeGrowth)
   }
 
-  updateStateAdult() {
-    if (this.ageState.age.ms >= HerbivoreSettings.Adult.AgeDurationMs) {
-      this.ageState.set('Old')
-    }
-  }
-
   enterStateOld() {
+    this.ageState.next('Dead', HerbivoreSettings.Old.AgeDurationMs)
     this.health.max = HerbivoreSettings.Old.Health
     this.hunger.maxMs = HerbivoreSettings.Old.MaxHungerMs
     this.grow(HerbivoreSettings.AgeBasedSizeGrowth)
   }
 
-  updateStateOld() {
-    if (this.ageState.age.ms >= HerbivoreSettings.Old.AgeDurationMs) {
-      console.log('Died of old age')
-      this.behaviorState.set('Die')
-    }
+  enterStateDead() {
+    this.behaviorState.set('Die')
   }
 
   /**
@@ -164,7 +157,7 @@ export class Herbivore extends GameEntity {
 
   updateStateSeekAdult() {
     // Find the closest adult.
-    if (this.closestAdult.entity) {
+    if (this.closestAdult) {
       // If we're not close enough to the adult, move toward it.
       if (
         this.closestAdult.distance >
@@ -187,7 +180,7 @@ export class Herbivore extends GameEntity {
   updateStateNurse() {
     // Find the closest adult. If we're close enough, attempt to nurse.
     if (
-      this.closestAdult.entity &&
+      this.closestAdult &&
       this.closestAdult.distance <=
         HerbivoreSettings.Calf.PreferredDistanceToAdult
     ) {
@@ -205,11 +198,10 @@ export class Herbivore extends GameEntity {
 
   updateStateSeekFood() {
     // Find the closest plant.
-    if (this.closestPlant.entity) {
+    if (this.closestPlant) {
       // If we're touching it, eat it.
       if (this.size.overlaps(this.closestPlant.entity.size)) {
-        this.hunger.eat(this.closestPlant.entity.asFood)
-        console.log('eat!', this.hunger.percent)
+        this.hunger.eat(this.closestPlant.entity.eatable)
       }
       // Otherwise, walk toward it.
       else {
@@ -234,7 +226,6 @@ export class Herbivore extends GameEntity {
 
   updateStateWander() {
     if (this.hunger.isHungry) {
-      console.log('hungry')
       this.behaviorState.set('SeekFood')
     }
   }

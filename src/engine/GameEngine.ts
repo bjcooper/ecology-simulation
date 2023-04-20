@@ -7,6 +7,7 @@ export class GameEngine {
   protected lastUpdateMs = 0
   protected lastDrawMs = 0
   protected ctx: CanvasRenderingContext2D
+  protected nextId = 0
   maxEntities = 2000
   drawRateMs = Math.ceil(1000 / 30)
   entities: IGameEntity[] = []
@@ -39,15 +40,30 @@ export class GameEngine {
   /**
    * Pause game play.
    */
-  public pause() {
+  pause() {
     this.isPaused = true
   }
 
   /**
    * Start or resume game play.
    */
-  public play() {
+  play() {
     this.isPaused = false
+  }
+
+  /**
+   * Generate a new entity ID.
+   */
+  newId() {
+    this.nextId++
+    return this.nextId
+  }
+
+  /**
+   * Get an entity with the given ID.
+   */
+  entity(id: number) {
+    return this.entities.find(entity => entity.id === id)
   }
 
   /**

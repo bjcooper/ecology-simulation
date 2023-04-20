@@ -9,5 +9,6 @@ declare global {
   const GeneralSettings: typeof import('./src/constants')['GeneralSettings']
   const HerbivoreSettings: typeof import('./src/constants')['HerbivoreSettings']
   const PlantSettings: typeof import('./src/constants')['PlantSettings']
+  const ProgressBar: typeof import('./src/ProgressBar')['ProgressBar']
   const RenderLayers: typeof import('./src/constants')['RenderLayers']
 }

@@ -4,8 +4,10 @@ import { AgeTrait } from './AgeTrait'
 export class StateTrait<S extends string> {
   age = new AgeTrait()
   deltsMs = 0
+  stateDurationMs: null | number = null
   previousState: null | S = null
   currentState: null | S = null
+  nextState: null | S = null
 
   constructor(public owner: object, public ageRandomization = 0) {}
 
@@ -22,9 +24,24 @@ export class StateTrait<S extends string> {
     return null
   }
 
+  get progressPercent() {
+    return this.stateDurationMs === null || this.stateDurationMs === 0
+      ? 0
+      : this.age.ms / this.stateDurationMs
+  }
+
   update(deltaMs: number) {
     this.deltsMs = deltaMs
     this.age.update(deltaMs)
+
+    if (
+      this.stateDurationMs !== null &&
+      this.nextState &&
+      this.age.ms >= this.stateDurationMs
+    ) {
+      this.set(this.nextState)
+    }
+
     const cb = this.getStateCallback('updateState', this.currentState)
     if (cb) {
       cb.call(this.owner)
@@ -38,15 +55,13 @@ export class StateTrait<S extends string> {
     }
   }
 
-  set(newState: null | S, ageRandomization?: number) {
+  set(newState: null | S) {
     // Update our state variables.
     this.previousState = this.currentState
+    this.nextState = null
     this.currentState = newState
-    this.age._ms =
-      Math.random() *
-      (ageRandomization === undefined
-        ? this.ageRandomization
-        : ageRandomization)
+    this.stateDurationMs = null
+    this.age._ms = Math.random() * this.ageRandomization
 
     // Invoke leave/enter hooks.
     const leaveCb = this.getStateCallback('leaveState', this.previousState)
@@ -58,5 +73,10 @@ export class StateTrait<S extends string> {
     if (enterCb) {
       enterCb.call(this.owner)
     }
+  }
+
+  next(nextState: S, stateDurationMs: number) {
+    this.nextState = nextState
+    this.stateDurationMs = stateDurationMs
   }
 }

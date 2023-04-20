@@ -54,12 +54,10 @@ export const PlantSettings = {
   MinProximity: 30,
   AgeRandomizationMs: seconds(2).ms,
   Seed: {
-    AgeDurationMs: seconds(5).ms,
-    FoodValueMs: 0
+    AgeDurationMs: seconds(5).ms
   },
   Sprout: {
-    AgeDurationMs: seconds(5).ms,
-    FoodValueMs: 0
+    AgeDurationMs: seconds(5).ms
   },
   Adolescent: {
     AgeDurationMs: seconds(10).ms,

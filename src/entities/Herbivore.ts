@@ -304,7 +304,7 @@ export class Herbivore extends GameEntity {
   updateStateSeekMate() {
     // Find the closest possible mate.
     if (this.mate) {
-      // If we're touching it, we're ready to mate with it it.
+      // If we're touching it, we're ready to mate with it.
       if (this.size.overlaps(this.mate.entity.size)) {
         this.behaviorState.set('Mate')
       }

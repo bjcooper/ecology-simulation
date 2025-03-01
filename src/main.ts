@@ -1,50 +1,30 @@
-import '../styles/styles.scss'
-import { GameEngine } from './engine'
-import { pick } from './engine/utils'
-import { Ground } from './entities/Ground'
-import { Herbivore } from './entities/Herbivore'
-import { HerbivoreReporter } from './entities/HerbivoreReporter'
-import { Plant } from './entities/Plant'
-import { PlantReporter } from './entities/PlantReporter'
-import { Stats } from './entities/Stats'
+import { Boot } from './scenes/Boot';
+import { Game as MainGame } from './scenes/Game';
+import { GameOver } from './scenes/GameOver';
+import { MainMenu } from './scenes/MainMenu';
+import { Preloader } from './scenes/Preloader';
 
-const canvas = document.querySelector<HTMLCanvasElement>('canvas#game-canvas')
-if (canvas) {
-  // Initialize our game engine.
-  canvas.width = 600
-  canvas.height = 600
-  const game = new GameEngine(canvas)
+import { Game, Types } from "phaser";
 
-  // Initialize entities.
-  new Ground(game).add()
+//  Find out more information about the Game Config at:
+//  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
+const config: Types.Core.GameConfig = {
+    type: Phaser.AUTO,
+    width: 1024,
+    height: 768,
+    parent: 'game-container',
+    backgroundColor: '#028af8',
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    scene: [
+        Boot,
+        Preloader,
+        MainMenu,
+        MainGame,
+        GameOver
+    ]
+};
 
-  // Spawn plants.
-  for (let i = 0; i < PlantSettings.StartingCount; i++) {
-    const plant = new Plant(
-      game,
-      game.screenSize.width * Math.random(),
-      game.screenSize.height * Math.random()
-    )
-    plant.state.set(pick('Seed', 'Sprout', 'Adolescent', 'Mature'))
-    plant.add()
-  }
-
-  // Spawn herbivores.
-  for (let i = 0; i < HerbivoreSettings.StartingCount; i++) {
-    const herbivore = new Herbivore(
-      game,
-      game.screenSize.width * Math.random(),
-      game.screenSize.height * Math.random()
-    )
-    herbivore.ageState.set(pick('Calf', 'Adolescent', 'Adult', 'Old'))
-    herbivore.add()
-  }
-
-  // Add stats and reporters.
-  new Stats(game).add()
-  new PlantReporter(game).add()
-  new HerbivoreReporter(game).add()
-
-  // Play!
-  game.play()
-}
+export default new Game(config);

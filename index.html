@@ -1,52 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eco-Sim</title>
-  </head>
-  <body>
-    <div class="game">
-      <canvas id="game-canvas"/>
+    <link rel="stylesheet" href="/style.css">
+    <title>Phaser - Template</title>
+</head>
+
+<body>
+    <div id="app">
+        <div id="game-container"></div>
     </div>
-
-    <div class="stats">
-
-      <div class='stats__table'>
-        <h2>Plants (<span id="plant-count"></span>)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">Age</th>
-            </tr>
-          </thead>
-          <tbody id="plants">
-          </tbody>
-        </table>
-      </div>
-
-      <div class='stats__table'>
-        <h2>Herbivores (<span id="herbivore-count"></span>)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">Age</th>
-              <th>Health</th>
-              <th>Hunger</th>
-              <th>Behavior</th>
-              <th>Pregnancy</th>
-              <th>Digestion</th>
-            </tr>
-          </thead>
-          <tbody id="herbivores">
-          </tbody>
-        </table>
-      </div>
-
-
-    </div>
-
     <script type="module" src="/src/main.ts"></script>
-  </body>
+</body>
 </html>

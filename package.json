@@ -1,28 +1,21 @@
 {
+  "author": "Brett Cooper <brett@thewiznerd.com>",
   "dependencies": {
-    "modern-css-reset": "^1.4.0",
-    "unplugin-auto-import": "^0.15.3"
+    "phaser": "^3.88.2"
   },
   "devDependencies": {
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.58.0",
-    "@typescript-eslint/parser": "^5.58.0",
-    "eslint": "^8.38.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.7",
-    "sass": "^1.59.3",
-    "typescript": "^4.9.3",
-    "vite": "^4.2.0"
+    "terser": "^5.39.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0"
   },
-  "name": "eco-sim",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "ecology-simulation",
   "private": true,
+  "repository": "git@git.thewiznerd.com:Brett/eco-sim.git",
   "scripts": {
-    "build": "tsc && vite build",
-    "dev": "vite --host=0.0.0.0 --port=3003",
-    "lint": "eslint --ext .ts ./src --fix",
-    "preview": "vite preview"
+    "build": "vite build --config vite/config.prod.mjs",
+    "dev": "vite --config vite/config.dev.mjs"
   },
-  "type": "module",
-  "version": "0.0.0"
+  "version": "1.0.0"
 }

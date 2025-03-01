@@ -11,6 +11,12 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      '@src': '/src',
+      '@assets': '/public/assets',
+    },
+  },
   server: {
     port: 8080,
   },

@@ -17,6 +17,11 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@assets/*": ["public/assets/*"],
+    }
   },
   "include": [
     "*.d.ts",

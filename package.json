@@ -8,8 +8,11 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.2",
     "terser": "^5.39.0",
-    "typescript": "^5.8.2",
+    "typescript": "4",
     "typescript-eslint": "^8.25.0",
     "vite": "^6.2.0"
   },
@@ -21,7 +24,8 @@
   "scripts": {
     "build": "vite build --config vite.config.prod.mjs",
     "dev": "vite --config vite.config.mjs",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "tsc": "tsc"
   },
   "version": "1.0.0"
 }
